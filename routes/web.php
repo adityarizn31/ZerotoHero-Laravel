@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
 
 // Rute untuk menampilkan halaman home
 Route::get('/', function () {
@@ -17,54 +18,15 @@ Route::get('/about', function () {
 Route::get('/posts', function () {
     return view('posts', [
         'title' => 'Blog Page',
-        'posts' =>
-        [
-            [
-                'id' => 1,
-                'slug' => 'judul-artikel-1',
-                'title' => 'Judul Artikel 1',
-                'author' => 'Aditya RN',
-                'body' => 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa hic sit commodi nulla
-            animi officiis ab corporis, totam quod nihil aperiam quo temporibus dolorem dolores debitis sint nobis harum odit.'
-            ],
-            [
-                'id' => 2,
-                'slug' => 'judul-artikel-2',
-                'title' => 'Judul Artikel 1',
-                'author' => 'Aditya RN',
-                'body' => 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa hic sit commodi nulla
-            animi officiis ab corporis, totam quod nihil aperiam quo temporibus dolorem dolores debitis sint nobis harum odit.'
-            ]
-        ]
+        'posts' => Post::all()
     ]);
 });
 
 // Rute untuk menampilkan detail Postingan / artikel
 Route::get('/posts/{slug}', function ($slug) {
-    $posts =
-        [
-            [
-                'id' => 1,
-                'slug' => 'judul-artikel-1',
-                'title' => 'Judul Artikel 1',
-                'author' => 'Aditya RN',
-                'body' => 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa hic sit commodi nulla
-        animi officiis ab corporis, totam quod nihil aperiam quo temporibus dolorem dolores debitis sint nobis harum odit.'
-            ],
-            [
-                'id' => 2,
-                'slug' => 'judul-artikel-2',
-                'title' => 'Judul Artikel 1',
-                'author' => 'Aditya RN',
-                'body' => 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa hic sit commodi nulla
-        animi officiis ab corporis, totam quod nihil aperiam quo temporibus dolorem dolores debitis sint nobis harum odit.'
-            ]
-        ];
 
-    // Function untuk mencari data sesuai dengan id
-    $post = Arr::first($posts, function ($post) use ($slug) {
-        return $post['slug'] == $slug;
-    });
+    // Function untuk mencari data sesuai dengan slug yang berada di Model Post
+    $post = Post::find($slug);
 
     return view(
         'post',
